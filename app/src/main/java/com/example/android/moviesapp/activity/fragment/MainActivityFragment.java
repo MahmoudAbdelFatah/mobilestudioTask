@@ -22,12 +22,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.adapters.RecyclerAdapter;
+import com.example.android.moviesapp.adapters.MovieAdapter;
 import com.example.android.moviesapp.data.DataItem;
 import com.example.android.moviesapp.data.Uris;
 import com.example.android.moviesapp.database.FavoriteMoviesContract;
 import com.example.android.moviesapp.database.FavoriteMoviesDbHelper;
-import com.example.android.moviesapp.interfaces.MovieChosen;
+import com.example.android.moviesapp.interfaces.IMovieChosen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
+    private MovieAdapter movieAdapter;
     private SharedPreferences sharedPref;
     public static ArrayList<DataItem>lstDataItems;
     private FavoriteMoviesDbHelper mFavoriteMoviesDbHelper;
@@ -63,14 +63,15 @@ public class MainActivityFragment extends Fragment {
         lstDataItems = new ArrayList<>();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
-        recyclerAdapter = new RecyclerAdapter(getActivity() , lstDataItems);
-        recyclerAdapter.setMovieChosen((MovieChosen) getActivity());
+        movieAdapter = new MovieAdapter(getActivity(), lstDataItems);
+        movieAdapter.setMovieChosen((IMovieChosen) getActivity());
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns()));
-        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(movieAdapter);
 
         return rootView;
     }
+
     private int numberOfColumns() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -81,11 +82,10 @@ public class MainActivityFragment extends Fragment {
         return nColumns;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(movieAdapter);
         updateOrderType();
     }
 
@@ -103,11 +103,7 @@ public class MainActivityFragment extends Fragment {
                         downloadFromInternet(query);
                     }
                     else{
-                        if(mToast !=null)
-                            mToast.cancel();
-                        mToast =Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_LONG);
-                        mToast.show();
-
+                        displayToast("No internet connection");
                     }
                     break;
                 case "popular":
@@ -116,23 +112,16 @@ public class MainActivityFragment extends Fragment {
                         downloadFromInternet(query);
                     }
                     else{
-                        if(mToast !=null)
-                            mToast.cancel();
-                        mToast =Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_LONG);
-                        mToast.show();
-
+                        displayToast("No internet connection");
                     }
                     break;
                 case "favorite_movie":
                     getFavoriteMoviesFromDb();
                     if(lstDataItems.size()>0){
-                        recyclerAdapter.notifyDataSetChanged();
+                        movieAdapter.notifyDataSetChanged();
                     }else{
-                        if(mToast != null)
-                            mToast.cancel();
-                        mToast = Toast.makeText(getContext() , "There isn't Favorite Movies", Toast.LENGTH_LONG);
-                        mToast.show();
-                        recyclerAdapter.notifyDataSetChanged();
+                        displayToast("There isn't Favorite Movies");
+                        movieAdapter.notifyDataSetChanged();
                     }
                     break;
             }
@@ -140,6 +129,13 @@ public class MainActivityFragment extends Fragment {
         }catch (Exception e){
             Log.e("connect", "the internet not working");
         }
+    }
+
+    private void displayToast(String toastText) {
+        if (mToast != null)
+            mToast.cancel();
+        mToast = Toast.makeText(getContext(), toastText, Toast.LENGTH_LONG);
+        mToast.show();
     }
 
     private void downloadFromInternet(String url){
@@ -192,41 +188,50 @@ public class MainActivityFragment extends Fragment {
                                 dataItem.id = Integer.parseInt(jsonArray.get(i).getAsJsonObject().get("id").toString());
 
                                 Log.i("test", "in ION");
-                                //recyclerAdapter.add(dataItem);
+                                //movieAdapter.add(dataItem);
                                 lstDataItems.add(dataItem);
                             }
                         }
                         Log.i("test", "" + lstDataItems.size());
-                        recyclerAdapter.notifyDataSetChanged();
+                        movieAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void getFavoriteMoviesFromDb(){
-        Cursor cursor = getContext().getContentResolver().query(
+        Cursor cursor = getMoviesEntry();
+        if (cursor.moveToFirst()) {
+            moviesFromDb(cursor);
+        }
+        cursor.close();
+    }
+
+    private Cursor getMoviesEntry() {
+        return getContext().getContentResolver().query(
                 FavoriteMoviesContract.FavoriteMoviesEntry.CONTENT_URI,
                 null,
                 null,
                 null,
                 null);
+
+    }
+
+    private void moviesFromDb(Cursor cursor) {
         DataItem dataItem ;
-        if (cursor.moveToFirst()) {
-            do {
-                dataItem = new DataItem();
-                //Read row by row
-                dataItem.id = Integer.parseInt(cursor.getString(0));
-                dataItem.original_title = cursor.getString(1);
-                dataItem.overview = cursor.getString(2);
-                dataItem.imageUrl = cursor.getString(3);
-                dataItem.vote_average = cursor.getString(4);
-                dataItem.release_date = cursor.getString(5);
-                dataItem.backdrop_path = cursor.getString(6);
-                lstDataItems.add(dataItem);
-            } while (cursor.moveToNext());
-            recyclerAdapter.notifyDataSetChanged();
-        }
-        cursor.close();
+        do {
+            dataItem = new DataItem();
+            //Read row by row
+            dataItem.id = Integer.parseInt(cursor.getString(0));
+            dataItem.original_title = cursor.getString(1);
+            dataItem.overview = cursor.getString(2);
+            dataItem.imageUrl = cursor.getString(3);
+            dataItem.vote_average = cursor.getString(4);
+            dataItem.release_date = cursor.getString(5);
+            dataItem.backdrop_path = cursor.getString(6);
+            lstDataItems.add(dataItem);
+        } while (cursor.moveToNext());
+        movieAdapter.notifyDataSetChanged();
     }
 
     @Override

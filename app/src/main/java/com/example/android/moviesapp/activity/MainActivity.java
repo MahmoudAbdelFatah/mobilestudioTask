@@ -9,11 +9,9 @@ import android.view.MenuItem;
 import com.example.android.moviesapp.R;
 import com.example.android.moviesapp.activity.fragment.MainActivityFragment;
 import com.example.android.moviesapp.data.DataItem;
-import com.example.android.moviesapp.interfaces.MovieChosen;
+import com.example.android.moviesapp.interfaces.IMovieChosen;
 
-public class MainActivity extends AppCompatActivity implements MovieChosen {
-
-    //private MovieSort moviesSort = MovieSort.POPULAR;
+public class MainActivity extends AppCompatActivity implements IMovieChosen {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

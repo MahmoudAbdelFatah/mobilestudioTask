@@ -1,7 +1,5 @@
 package com.example.android.moviesapp.data;
 
-import com.example.android.moviesapp.BuildConfig;
-
 public class Uris {
     //Uris of popular or top rated
     public static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
