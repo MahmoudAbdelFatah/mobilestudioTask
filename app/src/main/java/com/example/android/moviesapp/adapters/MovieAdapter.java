@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.android.moviesapp.R;
 import com.example.android.moviesapp.activity.DetailActivity;
-import com.example.android.moviesapp.data.DataItem;
+import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.interfaces.IMovieChosen;
 import com.squareup.picasso.Picasso;
 

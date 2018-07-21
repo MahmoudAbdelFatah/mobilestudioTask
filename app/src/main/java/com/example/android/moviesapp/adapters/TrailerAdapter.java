@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.data.Trailer;
+import com.example.android.moviesapp.model.Trailer;
 import com.example.android.moviesapp.interfaces.IOnItemClickListener;
 
 import java.util.ArrayList;

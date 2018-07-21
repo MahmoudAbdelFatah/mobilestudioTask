@@ -23,8 +23,8 @@ import android.widget.Toast;
 
 import com.example.android.moviesapp.R;
 import com.example.android.moviesapp.adapters.MovieAdapter;
-import com.example.android.moviesapp.data.DataItem;
-import com.example.android.moviesapp.data.Uris;
+import com.example.android.moviesapp.model.DataItem;
+import com.example.android.moviesapp.model.Uris;
 import com.example.android.moviesapp.database.FavoriteMoviesContract;
 import com.example.android.moviesapp.database.FavoriteMoviesDbHelper;
 import com.example.android.moviesapp.interfaces.IMovieChosen;

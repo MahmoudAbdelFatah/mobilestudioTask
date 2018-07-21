@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.data;
+package com.example.android.moviesapp.model;
 
 public enum MovieSort {
     POPULAR("popular"),
