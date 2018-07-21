@@ -161,10 +161,7 @@ public class DetailActivityFragment extends Fragment  {
                 contentValues);
         long insertedId = ContentUris.parseId(insertUri);
         if (insertedId > 0) {
-            if (mToast != null)
-                mToast.cancel();
-            mToast = Toast.makeText(getContext(), "Movie Added to Favorite Movies :)", Toast.LENGTH_LONG);
-            mToast.show();
+            displayToast("Movie Added to Favorite Movies!");
         }
     }
 
@@ -177,11 +174,15 @@ public class DetailActivityFragment extends Fragment  {
                 new String[]{dataItem.getId().toString()}
         );
         if (rowDeleted > 0) {
-            if (mToast != null)
-                mToast.cancel();
-            mToast = Toast.makeText(getContext(), "Movie Removed from Favorite Movies :(", Toast.LENGTH_LONG);
-            mToast.show();
+            displayToast("Movie Removed from Favorite Movies!");
         }
+    }
+
+    private void displayToast(String toastText) {
+        if (mToast != null)
+            mToast.cancel();
+        mToast = Toast.makeText(getContext(), toastText, Toast.LENGTH_LONG);
+        mToast.show();
     }
 
     private void checkFav() {
