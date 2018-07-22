@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.activity.fragment.view.fragment;
+package com.example.android.moviesapp.activity.fragment.detail.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,9 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.activity.fragment.presenter.DetailPresenterImpl;
-import com.example.android.moviesapp.activity.fragment.presenter.IDetailPresenter;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.IDetailView;
+import com.example.android.moviesapp.activity.fragment.detail.presenter.DetailPresenterImpl;
+import com.example.android.moviesapp.activity.fragment.detail.presenter.IDetailPresenter;
+import com.example.android.moviesapp.activity.fragment.home.view.MainActivityFragment;
+import com.example.android.moviesapp.activity.fragment.interfaces.IDetailView;
 import com.example.android.moviesapp.adapters.ReviewAdapter;
 import com.example.android.moviesapp.adapters.TrailerAdapter;
 import com.example.android.moviesapp.interfaces.IOnItemClickListener;

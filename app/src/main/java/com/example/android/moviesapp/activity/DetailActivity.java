@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.activity.fragment.view.fragment.DetailActivityFragment;
+import com.example.android.moviesapp.activity.fragment.detail.view.DetailActivityFragment;
 
 public class DetailActivity extends AppCompatActivity {
 

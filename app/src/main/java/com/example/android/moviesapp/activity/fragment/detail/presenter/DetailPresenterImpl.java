@@ -1,14 +1,14 @@
-package com.example.android.moviesapp.activity.fragment.presenter;
+package com.example.android.moviesapp.activity.fragment.detail.presenter;
 
 
 import android.content.Context;
 
-import com.example.android.moviesapp.activity.fragment.view.interfaces.APIImpl;
-import com.example.android.moviesapp.activity.fragment.view.fragment.DetailActivityFragment;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.IAPI;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.IRepository;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.RepositoryImpl;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.IDetailView;
+import com.example.android.moviesapp.activity.fragment.interfaces.IonRestfullAPIImpl;
+import com.example.android.moviesapp.activity.fragment.detail.view.DetailActivityFragment;
+import com.example.android.moviesapp.activity.fragment.interfaces.IonRestfullAPI;
+import com.example.android.moviesapp.activity.fragment.interfaces.IRepository;
+import com.example.android.moviesapp.activity.fragment.interfaces.RepositoryImpl;
+import com.example.android.moviesapp.activity.fragment.interfaces.IDetailView;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.model.Review;
 import com.example.android.moviesapp.model.Trailer;
@@ -19,14 +19,14 @@ public class DetailPresenterImpl implements IDetailPresenter {
     Context context;
     IRepository repository;
     IDetailView detailView;
-    IAPI api;
+    IonRestfullAPI api;
 
 
     public DetailPresenterImpl(Context context) {
         this.context = context;
         repository = new RepositoryImpl(context);
         detailView = new DetailActivityFragment();
-        api = new APIImpl(context);
+        api = new IonRestfullAPIImpl(context);
     }
 
 

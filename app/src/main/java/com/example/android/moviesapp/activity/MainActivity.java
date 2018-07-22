@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.activity.fragment.view.fragment.MainActivityFragment;
+import com.example.android.moviesapp.activity.fragment.home.view.MainActivityFragment;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.interfaces.IMovieChosen;
 

@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.activity.fragment.view.interfaces;
+package com.example.android.moviesapp.activity.fragment.interfaces;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 
-import com.example.android.moviesapp.activity.fragment.view.fragment.MainActivityFragment;
+import com.example.android.moviesapp.activity.fragment.home.view.MainActivityFragment;
 import com.example.android.moviesapp.database.FavoriteMoviesContract;
 import com.example.android.moviesapp.model.DataItem;
 

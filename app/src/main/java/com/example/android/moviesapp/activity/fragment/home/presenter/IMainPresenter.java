@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.activity.fragment.presenter;
+package com.example.android.moviesapp.activity.fragment.home.presenter;
 
 import android.content.Context;
 

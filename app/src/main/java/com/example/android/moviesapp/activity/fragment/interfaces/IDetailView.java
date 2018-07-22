@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.activity.fragment.view.interfaces;
+package com.example.android.moviesapp.activity.fragment.interfaces;
 
 import android.view.View;
 

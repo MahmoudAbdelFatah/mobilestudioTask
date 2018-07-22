@@ -1,9 +1,8 @@
-package com.example.android.moviesapp.activity.fragment.view.interfaces;
+package com.example.android.moviesapp.activity.fragment.interfaces;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.android.moviesapp.activity.fragment.view.fragment.MainActivityFragment;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.model.Review;
 import com.example.android.moviesapp.model.Trailer;
@@ -15,12 +14,12 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
-public class APIImpl implements IAPI {
+public class IonRestfullAPIImpl implements IonRestfullAPI {
     Trailer mTrailers;
     Review mReview;
 
     Context context;
-    public APIImpl(Context context) {
+    public IonRestfullAPIImpl(Context context) {
         this.context = context;
     }
 

@@ -1,9 +1,6 @@
-package com.example.android.moviesapp.activity.fragment.view.fragment;
+package com.example.android.moviesapp.activity.fragment.home.view;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -19,19 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.activity.fragment.presenter.IMainPresenter;
-import com.example.android.moviesapp.activity.fragment.presenter.MainPresenter;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.IMainView;
-import com.example.android.moviesapp.activity.fragment.view.interfaces.INetwork;
+import com.example.android.moviesapp.activity.fragment.home.presenter.IMainPresenter;
+import com.example.android.moviesapp.activity.fragment.home.presenter.MainPresenter;
+import com.example.android.moviesapp.activity.fragment.interfaces.IMainView;
 import com.example.android.moviesapp.adapters.MovieAdapter;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.model.Uris;
-import com.example.android.moviesapp.database.FavoriteMoviesDbHelper;
 import com.example.android.moviesapp.interfaces.IMovieChosen;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import java.net.URL;
 import java.util.ArrayList;
