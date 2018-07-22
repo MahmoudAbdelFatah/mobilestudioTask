@@ -1,19 +1,14 @@
-package com.example.android.moviesapp.activity.fragment.Details.presenter;
+package com.example.android.moviesapp.activity.fragment.presenter;
 
 
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
-import android.widget.Toast;
 
-import com.example.android.moviesapp.activity.fragment.Details.view.APIImpl;
-import com.example.android.moviesapp.activity.fragment.Details.view.DetailActivityFragment;
-import com.example.android.moviesapp.activity.fragment.Details.view.IAPI;
-import com.example.android.moviesapp.activity.fragment.Details.view.IRepository;
-import com.example.android.moviesapp.activity.fragment.Details.view.RepositoryImpl;
-import com.example.android.moviesapp.activity.fragment.Details.view.IDetailView;
-import com.example.android.moviesapp.database.FavoriteMoviesContract;
+import com.example.android.moviesapp.activity.fragment.view.interfaces.APIImpl;
+import com.example.android.moviesapp.activity.fragment.view.fragment.DetailActivityFragment;
+import com.example.android.moviesapp.activity.fragment.view.interfaces.IAPI;
+import com.example.android.moviesapp.activity.fragment.view.interfaces.IRepository;
+import com.example.android.moviesapp.activity.fragment.view.interfaces.RepositoryImpl;
+import com.example.android.moviesapp.activity.fragment.view.interfaces.IDetailView;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.model.Review;
 import com.example.android.moviesapp.model.Trailer;
@@ -65,6 +60,5 @@ public class DetailPresenterImpl implements IDetailPresenter {
         ArrayList<Review> reviews = api.getReviews(dataItem, lstReview);
         return reviews;
     }
-
 
 }

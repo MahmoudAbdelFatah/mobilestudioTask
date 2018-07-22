@@ -1,11 +1,14 @@
-package com.example.android.moviesapp.activity.fragment.Details.view;
+package com.example.android.moviesapp.activity.fragment.view.interfaces;
 
+import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 
+import com.example.android.moviesapp.activity.fragment.view.fragment.MainActivityFragment;
 import com.example.android.moviesapp.database.FavoriteMoviesContract;
 import com.example.android.moviesapp.model.DataItem;
 
@@ -68,5 +71,42 @@ public class RepositoryImpl implements IRepository {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void getFavoriteMoviesFromDb() {
+        Cursor cursor = getMoviesEntry();
+        if (cursor.moveToFirst()) {
+            moviesFromDb(cursor);
+        }
+        cursor.close();
+    }
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public Cursor getMoviesEntry() {
+        return context.getContentResolver().query(
+                FavoriteMoviesContract.FavoriteMoviesEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void moviesFromDb(Cursor cursor) {
+        DataItem dataItem ;
+        do {
+            dataItem = new DataItem();
+            //Read row by row
+            dataItem.id = Integer.parseInt(cursor.getString(0));
+            dataItem.original_title = cursor.getString(1);
+            dataItem.overview = cursor.getString(2);
+            dataItem.imageUrl = cursor.getString(3);
+            dataItem.vote_average = cursor.getString(4);
+            dataItem.release_date = cursor.getString(5);
+            dataItem.backdrop_path = cursor.getString(6);
+            MainActivityFragment.lstDataItems.add(dataItem);
+        } while (cursor.moveToNext());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.android.moviesapp.activity.fragment.Details.presenter;
+package com.example.android.moviesapp.activity.fragment.presenter;
 
 
 import com.example.android.moviesapp.model.DataItem;

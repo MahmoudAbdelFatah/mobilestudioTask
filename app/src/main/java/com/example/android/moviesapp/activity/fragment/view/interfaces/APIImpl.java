@@ -1,8 +1,9 @@
-package com.example.android.moviesapp.activity.fragment.Details.view;
+package com.example.android.moviesapp.activity.fragment.view.interfaces;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.example.android.moviesapp.activity.fragment.view.fragment.MainActivityFragment;
 import com.example.android.moviesapp.model.DataItem;
 import com.example.android.moviesapp.model.Review;
 import com.example.android.moviesapp.model.Trailer;
@@ -115,6 +116,67 @@ public class APIImpl implements IAPI {
             Log.v("connect", "Ion not work well!");
         }
         return lstReview;
+    }
+
+    @Override
+    public ArrayList<DataItem> downloadFromInternet(String url) {
+        final ArrayList<DataItem> lstDataItems = new ArrayList<>();
+        Ion.with(context)
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    DataItem dataItem;
+                    String imageUrl;
+                    String tmp;
+
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (e == null) {
+                            JsonArray jsonArray = result.getAsJsonArray("results");
+                            for (int i = 0; i < jsonArray.size(); i++) {
+                                dataItem = new DataItem();
+
+                                //Image Poster
+                                imageUrl = jsonArray.get(i).getAsJsonObject().get("poster_path").toString();
+                                imageUrl = imageUrl.substring(2, imageUrl.length() - 1);
+                                imageUrl = Uris.IMAGE_PATH + imageUrl;
+                                dataItem.imageUrl = imageUrl;
+
+                                //overView
+                                tmp = jsonArray.get(i).getAsJsonObject().get("overview").toString();
+                                tmp = tmp.substring(1, tmp.length() - 1);
+                                dataItem.overview = tmp;
+
+                                //original title for movie
+                                tmp = jsonArray.get(i).getAsJsonObject().get("original_title").toString();
+                                tmp = tmp.substring(1, tmp.length() - 1);
+                                dataItem.original_title = tmp;
+
+                                //vote average
+                                tmp = jsonArray.get(i).getAsJsonObject().get("vote_average").toString();
+                                tmp = tmp + "/10.0";
+                                dataItem.vote_average = tmp;
+
+                                //release Date
+                                tmp = jsonArray.get(i).getAsJsonObject().get("release_date").toString();
+                                tmp = tmp.substring(1, tmp.length() - 1);
+                                dataItem.release_date = tmp;
+
+                                imageUrl = jsonArray.get(i).getAsJsonObject().get("backdrop_path").toString();
+                                imageUrl = imageUrl.substring(2, imageUrl.length() - 1);
+                                imageUrl = Uris.IMAGE_PATH + imageUrl;
+                                dataItem.backdrop_path = imageUrl;
+
+                                dataItem.id = Integer.parseInt(jsonArray.get(i).getAsJsonObject().get("id").toString());
+
+                                Log.i("test", "in ION");
+                                //movieAdapter.add(dataItem);
+                                lstDataItems.add(dataItem);
+                            }
+                        }
+                    }
+                });
+        return lstDataItems;
     }
 }
 
