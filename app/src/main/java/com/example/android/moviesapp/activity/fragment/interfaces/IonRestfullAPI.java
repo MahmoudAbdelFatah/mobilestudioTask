@@ -1,14 +1,18 @@
 package com.example.android.moviesapp.activity.fragment.interfaces;
 
-import com.example.android.moviesapp.model.DataItem;
-import com.example.android.moviesapp.model.Review;
-import com.example.android.moviesapp.model.Trailer;
+import android.content.Context;
 
-import java.util.ArrayList;
+import com.example.android.moviesapp.interfaces.ICallBackJsonItems;
 
-public interface IonRestfullAPI {
-    ArrayList<Trailer> getTrailers(DataItem dataItem, ArrayList<Trailer> lstTrailers);
-    ArrayList<Review> getReviews(DataItem dataItem, ArrayList<Review> lstReview);
-    ArrayList<DataItem> downloadFromInternet(String url);
+public class IonRestfullAPI implements IonRestfullAPIContract {
+
+    public IonRestfullAPI() {
+    }
+
+    @Override
+    public void loadData(Context context, String url, IJsonManager jsonManager, ICallBackJsonItems jsonItems) {
+        jsonManager.getJson(context, url, jsonManager, jsonItems);
+    }
 
 }
+

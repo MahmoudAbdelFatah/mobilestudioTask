@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.moviesapp.R;
-import com.example.android.moviesapp.activity.fragment.detail.presenter.DetailPresenterImpl;
+import com.example.android.moviesapp.activity.fragment.detail.presenter.DetailPresenter;
+import com.example.android.moviesapp.activity.fragment.detail.presenter.DetailRepository;
 import com.example.android.moviesapp.activity.fragment.detail.presenter.IDetailPresenter;
+import com.example.android.moviesapp.activity.fragment.detail.presenter.IDetailRepository;
 import com.example.android.moviesapp.activity.fragment.home.view.MainActivityFragment;
 import com.example.android.moviesapp.activity.fragment.interfaces.IDetailView;
 import com.example.android.moviesapp.adapters.ReviewAdapter;
@@ -29,6 +31,7 @@ import com.example.android.moviesapp.model.Trailer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivityFragment extends Fragment implements IDetailView {
     private ImageView backdropImage, posterImage;
@@ -41,10 +44,9 @@ public class DetailActivityFragment extends Fragment implements IDetailView {
     private TrailerAdapter trailerAdapter;
     private ArrayList<Trailer> lstTrailers;
     private ArrayList<Review> lstReview;
-    private Trailer mTrailers;
-    private Review mReview;
     private Toast mToast;
     private IDetailPresenter detailPresenter;
+    private IDetailRepository detailRepository;
 
     public DetailActivityFragment() {
         setHasOptionsMenu(true);
@@ -75,11 +77,11 @@ public class DetailActivityFragment extends Fragment implements IDetailView {
                 if (!isFav) {
                     isFav = true;
                     addButton.setBackgroundResource(R.drawable.add_to_db);
-                    detailPresenter.addMovie(dataItem);
+                    detailRepository.addMovie(dataItem);
                 } else {
                     isFav = false;
                     addButton.setBackgroundResource(R.drawable.remove_from_db);
-                    detailPresenter.deleteMovie(dataItem);
+                    detailRepository.deleteMovie(dataItem);
                 }
             }
         });
@@ -96,18 +98,35 @@ public class DetailActivityFragment extends Fragment implements IDetailView {
     }
 
     @Override
-    public void init() {
-        lstTrailers = new ArrayList<>();
-        lstReview = new ArrayList<>();
-        detailPresenter = new DetailPresenterImpl(getContext());
-        trailerAdapter = new TrailerAdapter(getContext(), detailPresenter.getTrailers(dataItem, lstTrailers));
-        reviewAdapter = new ReviewAdapter(getContext(), detailPresenter.getReviews(dataItem, lstReview));
+    public void setTrailers(List<Trailer> trailers) {
+        lstTrailers.addAll(trailers);
+        trailerAdapter.notifyDataSetChanged();
+        if (lstTrailers.size() == 0) {
+            displayToast("No trailers To Display");
+        }
     }
 
     @Override
+    public void setReviews(List<Review> reviews) {
+        lstReview.addAll(reviews);
+        reviewAdapter.notifyDataSetChanged();
+        if (lstReview.size() == 0) {
+            displayToast("No reviews To Display");
+        }
+    }
+
+    public void init() {
+        lstTrailers = new ArrayList<>();
+        lstReview = new ArrayList<>();
+        detailPresenter = new DetailPresenter(this);
+        detailRepository = new DetailRepository(this);
+        trailerAdapter = new TrailerAdapter(getContext(), lstTrailers);
+        reviewAdapter = new ReviewAdapter(getContext(), lstReview);
+    }
+
     public void injectViews(View rootView) {
         addButton = (Button) rootView.findViewById(R.id.btn_favourite);
-        isFav = detailPresenter.flagFav(dataItem);
+        isFav = detailRepository.flagFav(dataItem);
         if (isFav) {
             addButton.setBackgroundResource(R.drawable.add_to_db);
         }
@@ -140,7 +159,6 @@ public class DetailActivityFragment extends Fragment implements IDetailView {
         rvReview.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    @Override
     public void setAdapters() {
         rvTrailer.setAdapter(trailerAdapter);
         rvReview.setAdapter(reviewAdapter);

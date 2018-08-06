@@ -4,10 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class NetworkImpl implements INetwork {
+public class Network implements INetwork {
     Context context;
 
-    public NetworkImpl(Context context) {
+    public Network(Context context) {
         this.context = context;
     }
 

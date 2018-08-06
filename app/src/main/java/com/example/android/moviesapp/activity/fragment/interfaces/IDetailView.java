@@ -1,11 +1,18 @@
 package com.example.android.moviesapp.activity.fragment.interfaces;
 
-import android.view.View;
+import android.content.Context;
+
+import com.example.android.moviesapp.model.Review;
+import com.example.android.moviesapp.model.Trailer;
+
+import java.util.List;
 
 public interface IDetailView {
     void displayToast(String textToast);
-    void injectViews(View rootView);
-    void init();
-    void setAdapters();
 
+    Context getContext();
+
+    void setTrailers(List<Trailer> trailers);
+
+    void setReviews(List<Review> reviews);
 }

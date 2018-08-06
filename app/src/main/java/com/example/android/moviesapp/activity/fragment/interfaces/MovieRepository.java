@@ -13,10 +13,10 @@ import com.example.android.moviesapp.database.FavoriteMoviesContract;
 import com.example.android.moviesapp.model.DataItem;
 
 
-public class RepositoryImpl implements IRepository {
+public class MovieRepository implements IRepository {
     Context context;
 
-    public RepositoryImpl(Context context) {
+    public MovieRepository(Context context) {
         this.context = context;
     }
 
@@ -35,13 +35,12 @@ public class RepositoryImpl implements IRepository {
             return false;
         }
         // if Database contains movie
-        //isFav = true;
         cursor.close();
         return true;
     }
 
     @Override
-    public boolean addMovieDb(DataItem dataItem) {
+    public boolean addMovie(DataItem dataItem) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavoriteMoviesContract.FavoriteMoviesEntry.MOVIE_ID, dataItem.getId());
         contentValues.put(FavoriteMoviesContract.FavoriteMoviesEntry.MOVIE_ORIGINAL_TITLE, dataItem.getOriginal_title());
@@ -61,7 +60,7 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
-    public boolean deleteMovieDb(DataItem dataItem) {
+    public boolean deleteMovie(DataItem dataItem) {
         int rowDeleted = context.getContentResolver().delete(
                 FavoriteMoviesContract.FavoriteMoviesEntry.CONTENT_URI,
                 FavoriteMoviesContract.FavoriteMoviesEntry.MOVIE_ID + " = ?",
@@ -74,17 +73,16 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
-    public void getFavoriteMoviesFromDb() {
+    public void getFavoriteMovies() {
         Cursor cursor = getMoviesEntry();
         if (cursor.moveToFirst()) {
-            moviesFromDb(cursor);
+            getMovies(cursor);
         }
         cursor.close();
     }
 
-    @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public Cursor getMoviesEntry() {
+    private Cursor getMoviesEntry() {
         return context.getContentResolver().query(
                 FavoriteMoviesContract.FavoriteMoviesEntry.CONTENT_URI,
                 null,
@@ -93,8 +91,7 @@ public class RepositoryImpl implements IRepository {
                 null);
     }
 
-    @Override
-    public void moviesFromDb(Cursor cursor) {
+    private void getMovies(Cursor cursor) {
         DataItem dataItem ;
         do {
             dataItem = new DataItem();
